@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome — Structural Intelligence Diagnostic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Public+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:   #2e2b2b;
+      --warm:   #363636;
+      --light:  #C7C7C7;
+      --cream:  #e8e4dc;
+      --accent: #BAA36C;
+      --navy:   #012333;
+      --bg:     #2a2727;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Public Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ── GRID BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(186,163,108,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(186,163,108,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── RADIAL GLOW ── */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 900px;
+      background: radial-gradient(ellipse, rgba(1,35,51,0.5) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes expandWidth {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50%       { opacity: 0.9; }
+    }
+
+    /* ── HERO SECTION ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px 60px;
+      text-align: center;
+    }
+
+    .logo-mark {
+      margin-bottom: 56px;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.2s forwards;
+    }
+
+    .grid-mark {
+      display: inline-grid;
+      grid-template-columns: repeat(3, 12px);
+      grid-template-rows: repeat(3, 12px);
+      gap: 3px;
+      margin-bottom: 18px;
+    }
+
+    .grid-cell {
+      width: 12px;
+      height: 12px;
+      border: 1px solid rgba(186,163,108,0.3);
+    }
+
+    .grid-cell.center {
+      background: rgba(186,163,108,0.15);
+      border-color: rgba(186,163,108,0.7);
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    .logo-text {
+      font-family: 'Public Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--light);
+      opacity: 0.6;
+    }
+
+    .logo-text span { font-weight: 700; }
+
+    /* Vertical rule */
+    .v-rule {
+      width: 1px;
+      height: 72px;
+      background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+      margin: 0 auto 52px;
+      opacity: 0;
+      animation: fadeIn 1.2s ease 0.6s forwards;
+    }
+
+    /* Welcome label */
+    .eyebrow {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.8s forwards;
+    }
+
+    /* Main heading */
+    .hero h1 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(32px, 6vw, 58px);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--cream);
+      max-width: 720px;
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 1.0s forwards;
+      letter-spacing: -0.01em;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    /* Subheading */
+    .hero .sub {
+      font-family: 'Lora', serif;
+      font-size: clamp(16px, 2.5vw, 21px);
+      font-style: italic;
+      color: var(--light);
+      margin-bottom: 56px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 1.2s forwards;
+      max-width: 560px;
+    }
+
+    /* CTA Button */
+    .cta-wrap {
+      opacity: 0;
+      animation: fadeUp 0.9s ease 1.5s forwards;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 16px 48px;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: 'Public Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.3s ease, color 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: -1;
+    }
+
+    .cta-btn:hover {
+      color: var(--dark);
+    }
+
+    .cta-btn:hover::before {
+      transform: translateX(0);
+    }
+
+    .scroll-hint {
+      margin-top: 64px;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(199,199,199,0.3);
+      opacity: 0;
+      animation: fadeIn 1s ease 2.2s forwards;
+    }
+
+    /* ── CONTENT SECTIONS ── */
+    .section {
+      padding: 100px 24px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .section-rule {
+      width: 40px;
+      height: 2px;
+      background: var(--accent);
+      margin-bottom: 32px;
+    }
+
+    .section h2 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 400;
+      line-height: 1.3;
+      color: var(--cream);
+      margin-bottom: 28px;
+    }
+
+    .section h2 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .section p {
+      font-size: 16px;
+      line-height: 1.9;
+      color: var(--light);
+      margin-bottom: 20px;
+      max-width: 620px;
+    }
+
+    .section p strong {
+      color: var(--cream);
+      font-weight: 500;
+    }
+
+    /* ── FINALLY BLOCK ── */
+    .finally-block {
+      padding: 80px 24px;
+      background: rgba(1,35,51,0.25);
+      border-top: 1px solid rgba(186,163,108,0.12);
+      border-bottom: 1px solid rgba(186,163,108,0.12);
+      text-align: center;
+    }
+
+    .finally-block .finally-label {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 40px;
+      opacity: 0.7;
+    }
+
+    .finally-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      max-width: 680px;
+      margin: 0 auto 48px;
+    }
+
+    .finally-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 22px;
+      border: 1px solid rgba(186,163,108,0.2);
+      background: rgba(186,163,108,0.04);
+    }
+
+    .finally-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .finally-item span {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 15px;
+      color: var(--cream);
+    }
+
+    /* ── WHAT THIS IS NOT ── */
+    .not-list {
+      margin: 28px 0;
+    }
+
+    .not-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(186,163,108,0.1);
+    }
+
+    .not-item:last-child { border-bottom: none; }
+
+    .not-x {
+      font-family: 'Public Sans', sans-serif;
+      font-size: 10px;
+      color: rgba(186,163,108,0.4);
+      letter-spacing: 0.1em;
+      padding-top: 3px;
+      flex-shrink: 0;
+    }
+
+    .not-text {
+      font-size: 15px;
+      color: var(--light);
+      line-height: 1.7;
+    }
+
+    .not-text strong { color: var(--cream); font-weight: 500; }
+
+    /* ── INSTRUCTIONS ── */
+    .instructions {
+      padding: 80px 24px 100px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .step-row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(186,163,108,0.08);
+    }
+
+    .step-row:last-of-type {
+      border-bottom: none;
+    }
+
+    .step-num {
+      font-family: 'Lora', serif;
+      font-size: 32px;
+      font-style: italic;
+      color: rgba(186,163,108,0.25);
+      line-height: 1;
+      min-width: 36px;
+    }
+
+    .step-content h3 {
+      font-family: 'Public Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .step-content p {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--light);
+    }
+
+    .step-content p strong { color: var(--cream); font-weight: 500; }
+
+    /* ── FINAL CTA ── */
+    .final-cta {
+      padding: 100px 24px 120px;
+      text-align: center;
+      border-top: 1px solid rgba(186,163,108,0.1);
+    }
+
+    .final-cta h2 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(26px, 4vw, 42px);
+      font-weight: 400;
+      line-height: 1.3;
+      color: var(--cream);
+      margin-bottom: 16px;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .final-cta h2 em { font-style: italic; color: var(--accent); }
+
+    .final-cta p {
+      font-size: 15px;
+      color: var(--light);
+      margin-bottom: 48px;
+      line-height: 1.8;
+    }
+
+    .final-cta .time-note {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(186,163,108,0.45);
+      margin-top: 28px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 28px 24px;
+      text-align: center;
+      border-top: 1px solid rgba(186,163,108,0.08);
+    }
+
+    .footer span {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(199,199,199,0.25);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .finally-items { flex-direction: column; align-items: center; }
+      .finally-item { width: 100%; max-width: 320px; }
+      .hero h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══ HERO ══ -->
+  <section class="hero">
+
+    <div class="logo-mark">
+      <div class="logo-text">the human | <span>LAB</span></div>
+    </div>
+
+    <div class="v-rule"></div>
+
+    <p class="eyebrow">Welcome</p>
+
+    <h1>You are about to understand<br/><em>why you are the way you are.</em></h1>
+
+    <p class="sub">Not who you could be. Not what you should change.<br/>
+    Why you think, feel, behave, and see the world the way you do.</p>
+
+    <div class="cta-wrap">
+      <a href="#begin" class="cta-btn">I'm Ready</a>
+    </div>
+
+    <p class="scroll-hint">Scroll to prepare ↓</p>
+
+  </section>
+
+  <!-- ══ FINALLY BLOCK ══ -->
+  <div class="finally-block">
+    <p class="finally-label">What you are about to discover</p>
+    <div class="finally-items">
+      <div class="finally-item"><div class="finally-dot"></div><span>Why you think the way you think</span></div>
+      <div class="finally-item"><div class="finally-dot"></div><span>Why you feel what you feel</span></div>
+      <div class="finally-item"><div class="finally-dot"></div><span>Why you behave in patterns you can't explain</span></div>
+      <div class="finally-item"><div class="finally-dot"></div><span>Why you see the world the way you do</span></div>
+      <div class="finally-item"><div class="finally-dot"></div><span>The system that has been running you</span></div>
+    </div>
+  </div>
+
+  <!-- ══ WHAT THIS IS ══ -->
+  <section class="section">
+    <div class="section-rule"></div>
+    <h2>This is not a personality test.<br/><em>It is a structural read.</em></h2>
+    <p>Most tools tell you what you are. Labels, types, categories. They hand you a box and ask you to climb inside it.</p>
+    <p>This instrument does something different. It reads the <strong>architecture beneath your behaviour</strong> — the logic your system built to survive, to function, to make sense of the world it grew up in.</p>
+    <p>That architecture is not a flaw. It is not a diagnosis. It is the most honest map of you that has ever existed.</p>
+    <p>And you are about to see it.</p>
+  </section>
+
+  <!-- ══ WHAT THIS IS NOT ══ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-rule"></div>
+    <h2>What this <em>is not.</em></h2>
+    <div class="not-list">
+      <div class="not-item">
+        <span class="not-x">—</span>
+        <p class="not-text"><strong>Not coaching.</strong> There are no action steps, no homework, no optimisation framework waiting at the end.</p>
+      </div>
+      <div class="not-item">
+        <span class="not-x">—</span>
+        <p class="not-text"><strong>Not therapy.</strong> This is not about processing the past. It is about reading the structure the past built.</p>
+      </div>
+      <div class="not-item">
+        <span class="not-x">—</span>
+        <p class="not-text"><strong>Not motivation.</strong> You will not leave feeling inspired. You will leave feeling <em>seen</em>.</p>
+      </div>
+      <div class="not-item">
+        <span class="not-x">—</span>
+        <p class="not-text"><strong>Not a mirror.</strong> A mirror only shows you the surface. This goes beneath it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ HOW TO APPROACH IT ══ -->
+  <section class="instructions">
+    <div class="section-rule"></div>
+    <h2 style="font-family:'Lora',serif; font-size:clamp(24px,4vw,36px); font-weight:400;
+               color:var(--cream); margin-bottom:48px; line-height:1.3;">
+      Before you begin.
+    </h2>
+
+    <div class="step-row">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <h3>Find the right moment</h3>
+        <p>This instrument takes <strong>45 to 90 minutes</strong>. Do not begin it between meetings, on your phone while distracted, or when you are performing. Begin it when you can be still.</p>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <h3>Answer what is actually true</h3>
+        <p>Not what you intend. Not what you are working toward. Not the version of yourself you are building. <strong>What is true right now.</strong> The instrument reads what is real — not what is aspirational.</p>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <h3>The 2am standard</h3>
+        <p>Answer the way you would answer at 2am, alone, with no audience. <strong>That level of honesty</strong> is what makes this instrument accurate. Anything less produces a partial read.</p>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <h3>There are no correct answers</h3>
+        <p>There is only what is true. The instrument is not judging you. It is reading you. <strong>Give it something real to read.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FINAL CTA ══ -->
+  <section class="final-cta" id="begin">
+
+    <div style="width:1px; height:64px; background:linear-gradient(to bottom, transparent, var(--accent), transparent);
+                margin: 0 auto 52px;"></div>
+
+    <h2>You have waited long enough<br/>to <em>finally understand yourself.</em></h2>
+    <p>Your structure is waiting to be read.</p>
+
+    <a href="https://tally.so/r/WOo5XQ" target="_blank" class="cta-btn"
+       style="font-size: 11px; padding: 18px 56px;">
+      Begin the Diagnostic
+    </a>
+
+    <br/>
+    <span class="time-note">Allow 45 – 90 minutes · Answer alone · Answer honestly</span>
+
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="footer">
+    <span>the human | LAB &nbsp;·&nbsp; Structural Intelligence &nbsp;·&nbsp; Understanding Precedes Change</span>
+  </footer>
+
+</div>
+</body>
+</html>
