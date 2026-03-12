@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome — Structural Intelligence Diagnostic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Public+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:   #2e2b2b;
+      --warm:   #363636;
+      --light:  #C7C7C7;
+      --cream:  #e8e4dc;
+      --accent: #BAA36C;
+      --navy:   #012333;
+      --bg:     #2a2727;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Public Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(186,163,108,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(186,163,108,0.05) 1px, transparent 1px);
+      background-size: 72px 72px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 900px;
+      height: 900px;
+      background: radial-gradient(ellipse, rgba(1,35,51,0.5) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px 50px;
+      text-align: center;
+    }
+
+    .logo-wrap {
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.2s forwards;
+    }
+
+    .logo-text {
+      font-family: 'Public Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      color: var(--light);
+      opacity: 0.6;
+    }
+    .logo-text span { font-weight: 700; }
+
+    .v-rule {
+      width: 1px;
+      height: 64px;
+      background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+      margin: 0 auto 48px;
+      opacity: 0;
+      animation: fadeIn 1s ease 0.5s forwards;
+    }
+
+    .eyebrow {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.7s forwards;
+    }
+
+    .hero h1 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(30px, 5.5vw, 54px);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--cream);
+      max-width: 700px;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.9s forwards;
+      letter-spacing: -0.01em;
+    }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+
+    .hero .sub {
+      font-family: 'Lora', serif;
+      font-size: clamp(15px, 2.2vw, 19px);
+      font-style: italic;
+      color: var(--light);
+      margin-bottom: 52px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 1.1s forwards;
+      max-width: 560px;
+      line-height: 1.8;
+    }
+
+    .scroll-hint {
+      margin-top: 52px;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(199,199,199,0.3);
+      opacity: 0;
+      animation: fadeIn 1s ease 1.8s forwards;
+    }
+
+    /* ── BEFORE YOU BEGIN ── */
+    .before {
+      padding: 60px 24px 50px;
+      max-width: 680px;
+      margin: 0 auto;
+      border-top: 1px solid rgba(186,163,108,0.1);
+    }
+
+    .section-rule {
+      width: 40px;
+      height: 2px;
+      background: var(--accent);
+      margin-bottom: 32px;
+    }
+
+    .before h2 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(22px, 3.5vw, 32px);
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 52px;
+      line-height: 1.3;
+    }
+
+    .step-row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      margin-bottom: 36px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid rgba(186,163,108,0.08);
+    }
+    .step-row:last-of-type { border-bottom: none; margin-bottom: 0; }
+
+    .step-num {
+      font-family: 'Lora', serif;
+      font-size: 28px;
+      font-style: italic;
+      color: rgba(186,163,108,0.25);
+      line-height: 1;
+      min-width: 32px;
+    }
+
+    .step-content h3 {
+      font-family: 'Public Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .step-content p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--light);
+    }
+    .step-content p strong { color: var(--cream); font-weight: 500; }
+
+    /* ── FINAL CTA ── */
+    .final-cta {
+      padding: 50px 24px 80px;
+      text-align: center;
+      border-top: 1px solid rgba(186,163,108,0.1);
+    }
+
+    .final-cta .v-rule-center {
+      width: 1px;
+      height: 56px;
+      background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+      margin: 0 auto 48px;
+    }
+
+    .final-cta h2 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(24px, 4vw, 38px);
+      font-weight: 400;
+      line-height: 1.3;
+      color: var(--cream);
+      margin-bottom: 14px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .final-cta h2 em { font-style: italic; color: var(--accent); }
+
+    .final-cta p {
+      font-size: 15px;
+      color: var(--light);
+      margin-bottom: 44px;
+      line-height: 1.8;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 16px 52px;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: 'Public Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s ease;
+    }
+
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: -1;
+    }
+
+    .cta-btn:hover { color: var(--dark); }
+    .cta-btn:hover::before { transform: translateX(0); }
+
+    .time-note {
+      display: block;
+      margin-top: 24px;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(186,163,108,0.4);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 24px;
+      text-align: center;
+      border-top: 1px solid rgba(186,163,108,0.08);
+    }
+    .footer span {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(199,199,199,0.2);
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 26px; }
+      .before { padding: 60px 24px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+
+    <div class="logo-wrap">
+      <div class="logo-text">the human | <span>LAB</span></div>
+    </div>
+
+    <div class="v-rule"></div>
+
+    <p class="eyebrow">Welcome</p>
+
+    <h1>You are about to encounter<br/><em>the structure that produces you.</em></h1>
+
+    <p class="sub">This instrument examines the underlying architecture that shapes how you think, how you perceive, how you respond,<br/>and how you move through the world.</p>
+
+
+
+  </section>
+
+  <!-- ── BEFORE YOU BEGIN ── -->
+  <section class="before">
+
+    <div class="section-rule"></div>
+    <h2>Before you begin.</h2>
+
+    <div class="step-row">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <h3>Find the right moment</h3>
+        <p>This instrument takes <strong>45 to 90 minutes.</strong> Do not begin it between meetings, on your phone while distracted, or when you are performing. Begin it when you can be still.</p>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <h3>Answer what is actually true</h3>
+        <p>Not what you intend. Not what you are working toward. Not the version of yourself you are building. <strong>What is true right now.</strong></p>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <h3>The 2am standard</h3>
+        <p>Answer the way you would answer at 2am, alone, with no audience. <strong>That level of honesty</strong> is what makes this instrument accurate.</p>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <h3>There are no correct answers</h3>
+        <p>There is only what is true. The instrument is not judging you. It is reading you. <strong>Give it something real to read.</strong></p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── FINAL CTA ── -->
+  <section class="final-cta">
+
+    <div class="v-rule-center"></div>
+
+    <h2>You have waited long enough<br/>to <em>finally understand yourself.</em></h2>
+    <p>Your structure is waiting to be read.</p>
+
+    <a href="https://tally.so/r/WOo5XQ" target="_blank" class="cta-btn">
+      Begin the Diagnostic
+    </a>
+
+    <span class="time-note">Allow 45–90 minutes &nbsp;·&nbsp; Answer alone &nbsp;·&nbsp; Answer honestly</span>
+
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <span>the human | LAB &nbsp;·&nbsp; Structural Intelligence &nbsp;·&nbsp; Understanding Precedes Change</span>
+  </footer>
+
+</div>
+</body>
+</html>
